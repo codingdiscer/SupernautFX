@@ -15,6 +15,7 @@ jobs:
     - name: Git checkout
       uses: actions/checkout@v1
     - name: Set up JDK
+      id: setupjdk
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
@@ -29,7 +30,7 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle
     - name: Build with Gradle
-      run: ./gradlew -Dorg.gradle.java.home=${JAVA_HOME_11_X64} buildJPackages --scan --info --stacktrace
+      run: ./gradlew -Dorg.gradle.java.home=${JAVA_HOME_11_X64} -Dorg.gradle.java.installations.paths=${{ steps.setupjdk.outputs.path }} buildJPackages --scan --info --stacktrace
     - name: Upload DMG as an artifact
       uses: actions/upload-artifact@v2
       with:
