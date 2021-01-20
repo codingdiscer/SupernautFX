@@ -14,14 +14,21 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v1
+    - name: Setup JDK 15 (AdoptOpenJDK)
+      uses: joschi/setup-jdk@v2
+      with:
+        java-version: 15
+        architecture: x64
+    - name: Echo JAVA_HOME (15)
+      run: echo $JAVA_HOME
     - name: Save default Java Home
       run: echo "JDK_DEF=$(echo $JAVA_HOME)" >> $GITHUB_ENV
-    - name: Set up JDK
+    - name: Set up JDK (matrix)
       id: setupjdk
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Echo JAVA_HOME
+    - name: Echo JAVA_HOME (matrix)
       run: echo $JAVA_HOME
     - name: Verify Gradle Wrapper
       uses: gradle/wrapper-validation-action@v1
