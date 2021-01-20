@@ -39,7 +39,7 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle
     - name: Change Java Home for Windows Gradle
-      run: echo "JAVA_HOME=$(echo JDK_DEF)" >> $GITHUB_ENV
+      run: echo "JAVA_HOME=$(echo $JDK_DEF)" >> $GITHUB_ENV
     - name: Build with Gradle
       run: ./gradlew -Dorg.gradle.java.home="${JDK_DEF}" -Porg.gradle.java.installations.paths="${{ steps.setupjdk.outputs.path }}" buildJPackages --scan --info --stacktrace
     - name: Upload DMG as an artifact
